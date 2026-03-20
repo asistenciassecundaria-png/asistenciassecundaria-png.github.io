@@ -1,303 +1,330 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Asistencia - Administrar grupos</title>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Asistencia - Administrar grupos</title>
 
-        <link
-            rel="apple-touch-icon"
-            sizes="57x57"
-            href="icons/apple-icon-57x57.png"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="60x60"
-            href="icons/apple-icon-60x60.png"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="72x72"
-            href="icons/apple-icon-72x72.png"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="76x76"
-            href="icons/apple-icon-76x76.png"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="114x114"
-            href="icons/apple-icon-114x114.png"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="120x120"
-            href="icons/apple-icon-120x120.png"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="144x144"
-            href="icons/apple-icon-144x144.png"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="152x152"
-            href="icons/apple-icon-152x152.png"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="icons/apple-icon-180x180.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="192x192"
-            href="icons/android-icon-192x192.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
-            href="icons/favicon-96x96.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="icons/favicon-32x32.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="icons/favicon-16x16.png"
-        />
+<link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png"/>
+<link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png"/>
 
-        <meta name="msapplication-TileColor" content="#4b0082" />
-        <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#4b0082" />
+<meta name="msapplication-TileColor" content="#4b0082" />
+<meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
+<meta name="theme-color" content="#4b0082" />
 
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-            rel="stylesheet"
-        />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
 
-        <style>
-            .bg-indigo {
-                background-color: #4b0082;
-            }
-        </style>
-    </head>
-    <body class="bg-gray-100">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-indigo">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">&#8592; Regresar</a>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+.bg-indigo {
+    background-color: #4b0082;
+}
+
+/* ===================== */
+/* RESPONSIVE MOVIL */
+/* ===================== */
+@media (max-width: 768px) {
+
+    .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+
+    #crearGrupo {
+        width: 100%;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+
+    .card button {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    input {
+        font-size: 16px !important;
+        padding: 10px !important;
+    }
+
+    .input-group {
+        flex-direction: column !important;
+        gap: 8px;
+    }
+
+    .input-group input,
+    .input-group button {
+        width: 100% !important;
+    }
+
+    .list-group-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px;
+    }
+
+    .list-group-item div {
+        width: 100%;
+        display: flex;
+        gap: 5px;
+    }
+
+    .list-group-item button {
+        flex: 1;
+    }
+
+    .modal-dialog {
+        margin: 10px;
+    }
+}
+</style>
+</head>
+
+<body class="bg-gray-100">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-indigo">
+<div class="container-fluid">
+<a class="navbar-brand" href="index.html">&#8592; Regresar</a>
+</div>
+</nav>
+
+<div class="container mt-4">
+<h1 class="text-center mb-4 font-bold text-2xl">Gestor de Grupos de Personas</h1>
+
+<div class="text-center">
+<button id="crearGrupo" class="btn btn-primary mb-3">
+Crear Nuevo Grupo
+</button>
+</div>
+
+<div id="listaGrupos"></div>
+</div>
+
+<div class="modal fade" id="grupoModal" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="grupoModalLabel">Crear/Editar Grupo</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+<input type="text" id="nombreGrupo" class="form-control mb-3" placeholder="Nombre del Grupo" />
+
+<h6>Personas en el Grupo:</h6>
+<ul id="listaPersonas" class="list-group mb-3"></ul>
+
+<div class="input-group mb-3">
+<input type="text" id="nombrePersona" class="form-control" placeholder="Nombre de la Persona" />
+<input type="tel" id="telefonoPersona" class="form-control" placeholder="Teléfono" />
+<button class="btn btn-outline-secondary" type="button" id="agregarPersona">Agregar</button>
+</div>
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+<button type="button" class="btn btn-primary" id="guardarGrupo">Guardar Grupo</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="editarPersonaModal" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">Editar Persona</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+<input type="text" id="editNombrePersona" class="form-control mb-3" placeholder="Nombre de la Persona" />
+<input type="tel" id="editTelefonoPersona" class="form-control mb-3" placeholder="Teléfono" />
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+<button type="button" class="btn btn-primary" id="guardarEditarPersona">Guardar Cambios</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+$(document).ready(function () {
+
+let grupos = JSON.parse(localStorage.getItem("grupos")) || {};
+let grupoActual = null;
+let personaEditando = null;
+
+function actualizarListaGrupos() {
+    let listaHTML = "";
+    for (let id in grupos) {
+        listaHTML += `
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title font-bold">${grupos[id].nombre}</h5>
+                <p class="card-text">Personas: ${grupos[id].personas.length}</p>
+                <button class="btn btn-info btn-sm editarGrupo" data-id="${id}">Editar</button>
+                <button class="btn btn-danger btn-sm eliminarGrupo" data-id="${id}">Eliminar</button>
             </div>
-        </nav>
+        </div>`;
+    }
+    $("#listaGrupos").html(listaHTML);
+}
 
+function generarId() {
+    const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let id;
+    do {
+        id = "";
+        for (let i = 0; i < 4; i++) {
+            id += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+        }
+    } while (grupoActual && grupoActual.personas.some((p) => p.id === id));
+    return id;
+}
 
-        <div class="container mt-4">
-            <h1 class="text-center mb-4 font-bold text-2xl">Gestor de Grupos de Personas</h1>
-            <div class="text-center">
-                <button id="crearGrupo" class="btn btn-primary mb-3">
-                    Crear Nuevo Grupo
-                </button>
+function limpiarTelefono(telefono) {
+    telefono = telefono.replace(/\D/g, "");
+    if (!telefono.startsWith("521") && telefono.length === 10) {
+        telefono = "521" + telefono;
+    }
+    if (telefono.startsWith("521") && telefono.length > 13) {
+        telefono = telefono.slice(0, 13);
+    }
+    return telefono;
+}
+
+$("#crearGrupo").click(function () {
+    grupoActual = { nombre: "", personas: [] };
+    $("#nombreGrupo").val("");
+    $("#listaPersonas").empty();
+    $("#grupoModalLabel").text("Crear Nuevo Grupo");
+    $("#grupoModal").modal("show");
+});
+
+$(document).on("click", ".editarGrupo", function () {
+    const id = $(this).data("id");
+    grupoActual = JSON.parse(JSON.stringify(grupos[id]));
+    grupoActual.id = id;
+    $("#nombreGrupo").val(grupoActual.nombre);
+    actualizarListaPersonas();
+    $("#grupoModalLabel").text("Editar Grupo");
+    $("#grupoModal").modal("show");
+});
+
+$(document).on("click", ".eliminarGrupo", function () {
+    const id = $(this).data("id");
+    delete grupos[id];
+    localStorage.setItem("grupos", JSON.stringify(grupos));
+    actualizarListaGrupos();
+});
+
+$("#agregarPersona").click(function () {
+    const nombre = $("#nombrePersona").val().trim();
+    let telefono = $("#telefonoPersona").val().trim();
+    if (nombre && telefono) {
+        telefono = limpiarTelefono(telefono);
+        const id = generarId();
+        grupoActual.personas.push({ id, nombre, telefono });
+        $("#nombrePersona").val("");
+        $("#telefonoPersona").val("");
+        actualizarListaPersonas();
+    }
+});
+
+function actualizarListaPersonas() {
+    let listaHTML = "";
+    for (let persona of grupoActual.personas) {
+        listaHTML += `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            ${persona.nombre} - ${persona.telefono} 
+            <span class="badge bg-primary rounded-pill">${persona.id}</span>
+            <div>
+                <button class="btn btn-sm btn-warning editarPersona" data-id="${persona.id}">Editar</button>
+                <button class="btn btn-sm btn-danger eliminarPersona" data-id="${persona.id}">Eliminar</button>
             </div>
-            <div id="listaGrupos"></div>
-        </div>
+        </li>`;
+    }
+    $("#listaPersonas").html(listaHTML);
+}
 
-        <div class="modal fade" id="grupoModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="grupoModalLabel">Crear/Editar Grupo</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" id="nombreGrupo" class="form-control mb-3" placeholder="Nombre del Grupo" />
-                        <h6>Personas en el Grupo:</h6>
-                        <ul id="listaPersonas" class="list-group mb-3"></ul>
-                        <div class="input-group mb-3">
-                            <input type="text" id="nombrePersona" class="form-control" placeholder="Nombre de la Persona" />
-                            <input type="tel" id="telefonoPersona" class="form-control" placeholder="Teléfono" />
-                            <button class="btn btn-outline-secondary" type="button" id="agregarPersona">Agregar</button>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="guardarGrupo">Guardar Grupo</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+$(document).on("click", ".eliminarPersona", function () {
+    const id = $(this).data("id");
+    grupoActual.personas = grupoActual.personas.filter((p) => p.id !== id);
+    actualizarListaPersonas();
+});
 
-        <div class="modal fade" id="editarPersonaModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Editar Persona</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" id="editNombrePersona" class="form-control mb-3" placeholder="Nombre de la Persona" />
-                        <input type="tel" id="editTelefonoPersona" class="form-control mb-3" placeholder="Teléfono" />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="guardarEditarPersona">Guardar Cambios</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+$(document).on("click", ".editarPersona", function () {
+    const id = $(this).data("id");
+    personaEditando = grupoActual.personas.find((p) => p.id === id);
+    $("#editNombrePersona").val(personaEditando.nombre);
+    $("#editTelefonoPersona").val(personaEditando.telefono);
+    $("#editarPersonaModal").modal("show");
+});
 
-        <script>
-            $(document).ready(function () {
-                let grupos = JSON.parse(localStorage.getItem("grupos")) || {};
-                let grupoActual = null;
-                let personaEditando = null;
+$("#guardarEditarPersona").click(function () {
+    const nuevoNombre = $("#editNombrePersona").val().trim();
+    let nuevoTelefono = $("#editTelefonoPersona").val().trim();
+    if (nuevoNombre && nuevoTelefono) {
+        nuevoTelefono = limpiarTelefono(nuevoTelefono);
+        personaEditando.nombre = nuevoNombre;
+        personaEditando.telefono = nuevoTelefono;
+        actualizarListaPersonas();
+        $("#editarPersonaModal").modal("hide");
+    }
+});
 
-                function actualizarListaGrupos() {
-                    let listaHTML = "";
-                    for (let id in grupos) {
-                        listaHTML += `
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title font-bold">${grupos[id].nombre}</h5>
-                                <p class="card-text">Personas: ${grupos[id].personas.length}</p>
-                                <button class="btn btn-info btn-sm editarGrupo" data-id="${id}">Editar</button>
-                                <button class="btn btn-danger btn-sm eliminarGrupo" data-id="${id}">Eliminar</button>
-                            </div>
-                        </div>`;
-                    }
-                    $("#listaGrupos").html(listaHTML);
-                }
+$("#guardarGrupo").click(function () {
+    const nombre = $("#nombreGrupo").val().trim();
+    if (nombre) {
+        grupoActual.nombre = nombre;
+        const id = grupoActual.id || Date.now().toString();
+        grupos[id] = grupoActual;
+        localStorage.setItem("grupos", JSON.stringify(grupos));
+        $("#grupoModal").modal("hide");
+        actualizarListaGrupos();
+    }
+});
 
-                function generarId() {
-                    const caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                    let id;
-                    do {
-                        id = "";
-                        for (let i = 0; i < 4; i++) {
-                            id += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
-                        }
-                    } while (grupoActual && grupoActual.personas.some((p) => p.id === id));
-                    return id;
-                }
+actualizarListaGrupos();
 
-                function limpiarTelefono(telefono) {
-                    telefono = telefono.replace(/\D/g, "");
-                    if (!telefono.startsWith("521") && telefono.length === 10) {
-                        telefono = "521" + telefono;
-                    }
-                    if (telefono.startsWith("521") && telefono.length > 13) {
-                        telefono = telefono.slice(0, 13);
-                    }
-                    return telefono;
-                }
+});
+</script>
 
-                $("#crearGrupo").click(function () {
-                    grupoActual = { nombre: "", personas: [] };
-                    $("#nombreGrupo").val("");
-                    $("#listaPersonas").empty();
-                    $("#grupoModalLabel").text("Crear Nuevo Grupo");
-                    $("#grupoModal").modal("show");
-                });
-
-                $(document).on("click", ".editarGrupo", function () {
-                    const id = $(this).data("id");
-                    grupoActual = JSON.parse(JSON.stringify(grupos[id]));
-                    grupoActual.id = id;
-                    $("#nombreGrupo").val(grupoActual.nombre);
-                    actualizarListaPersonas();
-                    $("#grupoModalLabel").text("Editar Grupo");
-                    $("#grupoModal").modal("show");
-                });
-
-                $(document).on("click", ".eliminarGrupo", function () {
-                    const id = $(this).data("id");
-                    delete grupos[id];
-                    localStorage.setItem("grupos", JSON.stringify(grupos));
-                    actualizarListaGrupos();
-                });
-
-                $("#agregarPersona").click(function () {
-                    const nombre = $("#nombrePersona").val().trim();
-                    let telefono = $("#telefonoPersona").val().trim();
-                    if (nombre && telefono) {
-                        telefono = limpiarTelefono(telefono);
-                        const id = generarId();
-                        grupoActual.personas.push({ id, nombre, telefono });
-                        $("#nombrePersona").val("");
-                        $("#telefonoPersona").val("");
-                        actualizarListaPersonas();
-                    }
-                });
-
-                function actualizarListaPersonas() {
-                    let listaHTML = "";
-                    for (let persona of grupoActual.personas) {
-                        listaHTML += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            ${persona.nombre} - ${persona.telefono} 
-                            <span class="badge bg-primary rounded-pill">${persona.id}</span>
-                            <div>
-                                <button class="btn btn-sm btn-warning editarPersona" data-id="${persona.id}">Editar</button>
-                                <button class="btn btn-sm btn-danger eliminarPersona" data-id="${persona.id}">Eliminar</button>
-                            </div>
-                        </li>`;
-                    }
-                    $("#listaPersonas").html(listaHTML);
-                }
-
-                $(document).on("click", ".eliminarPersona", function () {
-                    const id = $(this).data("id");
-                    grupoActual.personas = grupoActual.personas.filter((p) => p.id !== id);
-                    actualizarListaPersonas();
-                });
-
-                $(document).on("click", ".editarPersona", function () {
-                    const id = $(this).data("id");
-                    personaEditando = grupoActual.personas.find((p) => p.id === id);
-                    $("#editNombrePersona").val(personaEditando.nombre);
-                    $("#editTelefonoPersona").val(personaEditando.telefono);
-                    $("#editarPersonaModal").modal("show");
-                });
-
-                $("#guardarEditarPersona").click(function () {
-                    const nuevoNombre = $("#editNombrePersona").val().trim();
-                    let nuevoTelefono = $("#editTelefonoPersona").val().trim();
-                    if (nuevoNombre && nuevoTelefono) {
-                        nuevoTelefono = limpiarTelefono(nuevoTelefono);
-                        personaEditando.nombre = nuevoNombre;
-                        personaEditando.telefono = nuevoTelefono;
-                        actualizarListaPersonas();
-                        $("#editarPersonaModal").modal("hide");
-                    }
-                });
-
-                $("#guardarGrupo").click(function () {
-                    const nombre = $("#nombreGrupo").val().trim();
-                    if (nombre) {
-                        grupoActual.nombre = nombre;
-                        const id = grupoActual.id || Date.now().toString();
-                        grupos[id] = grupoActual;
-                        localStorage.setItem("grupos", JSON.stringify(grupos));
-                        $("#grupoModal").modal("hide");
-                        actualizarListaGrupos();
-                    }
-                });
-
-                actualizarListaGrupos();
-            });
-        </script>
-    </body>
+</body>
 </html>

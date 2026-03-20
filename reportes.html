@@ -5,30 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Asistencia - Ver Reportes</title>
 
-<link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png"/>
-<link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png"/>
-<link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png"/>
-<link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png"/>
-<link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png"/>
-<link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png"/>
-<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png"/>
-<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png"/>
-<link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png"/>
-<link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png"/>
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png"/>
-
-<meta name="msapplication-TileColor" content="#4b0082" />
-<meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
-<meta name="theme-color" content="#4b0082" />
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" rel="stylesheet"/>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
@@ -36,220 +16,215 @@
 
 <style>
 .bg-indigo { background-color: #4b0082; }
+
 .attendance-table { overflow-x: auto; }
-.attendance-table table { border-collapse: collapse; width: 100%; }
-.attendance-table th, .attendance-table td {
-	border: 1px solid #ddd;
-	padding: 8px;
-	text-align: center;
+
+.card-student {
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	padding: 12px;
+	margin-bottom: 12px;
 }
-.attendance-table th { background-color: #f2f2f2; }
+
+.good { color: green; font-weight: bold; }
+.bad { color: red; font-weight: bold; }
+
+@media (max-width:768px){
+	table { min-width:600px; font-size:12px; }
+}
 </style>
 </head>
 
 <body class="bg-gray-100">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-indigo">
+<nav class="navbar navbar-dark bg-indigo">
 <div class="container-fluid">
-<a class="navbar-brand" href="index.html">&#8592; Regresar</a>
+<a class="navbar-brand" href="index.html">← Regresar</a>
 </div>
 </nav>
 
-<div class="container mx-auto px-4 py-8">
-<h1 class="text-3xl font-bold mb-6 text-center">Reporte de Asistencias</h1>
+<div class="container py-4">
 
-<div id="groupSelection" class="mb-8">
-<label for="groupSelect" class="block mb-2 font-semibold">Selecciona un grupo:</label>
-<select id="groupSelect" class="w-full p-2 border rounded">
-<option value="">Selecciona un grupo...</option>
+<h1 class="text-2xl font-bold text-center mb-4">Reporte de Asistencias</h1>
+
+<!-- BUSCADOR -->
+<input id="searchInput" placeholder="Buscar alumno..." class="w-full p-2 border rounded mb-4"/>
+
+<select id="groupSelect" class="w-full p-2 border rounded mb-4">
+<option value="">Selecciona grupo</option>
 </select>
+
+<div class="flex gap-2 mb-4">
+<input id="startDate" class="w-1/2 p-2 border rounded"/>
+<input id="endDate" class="w-1/2 p-2 border rounded"/>
 </div>
 
-<div class="mt-8">
-<h2 class="text-2xl font-semibold mb-4">Seleccionar Fechas</h2>
-<div class="flex space-x-4">
-<label for="startDate" class="block mb-2 font-semibold">Fecha inicial:</label>
-<input type="text" id="startDate" class="w-1/2 p-2 border rounded"/>
-
-<label for="endDate" class="block mb-2 font-semibold">Fecha final:</label>
-<input type="text" id="endDate" class="w-1/2 p-2 border rounded"/>
-</div>
-
-<button id="exportCsv" class="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-Exportar a CSV
+<button id="exportCsv" class="bg-green-500 text-white px-4 py-2 rounded w-full mb-4">
+Exportar CSV
 </button>
-</div>
 
-<div id="attendanceList" class="mt-8 attendance-table hidden">
-<h2 class="text-2xl font-semibold mb-4">Lista de Asistencias</h2>
-<div id="attendanceTable"></div>
-</div>
+<div id="attendanceList" class="attendance-table"></div>
+
 </div>
 
 <script>
-$(document).ready(function () {
+$(document).ready(function(){
 
 let currentGroup = null;
 const grupos = JSON.parse(localStorage.getItem("grupos")) || {};
+const attendance = JSON.parse(localStorage.getItem("attendance")) || {};
 
 // llenar grupos
-for (const [id, group] of Object.entries(grupos)) {
-	$("#groupSelect").append(
-		$("<option>", { value: id, text: group.nombre })
-	);
+for (const [id, g] of Object.entries(grupos)) {
+	$("#groupSelect").append(`<option value="${id}">${g.nombre}</option>`);
 }
 
-// =====================
-// RESTAURAR DATOS
-// =====================
-const savedStartDate = localStorage.getItem("startDate");
-const savedEndDate = localStorage.getItem("endDate");
-const savedGroup = localStorage.getItem("selectedGroup");
+// restaurar
+$("#startDate").val(localStorage.getItem("startDate") || "");
+$("#endDate").val(localStorage.getItem("endDate") || "");
+$("#groupSelect").val(localStorage.getItem("group") || "");
 
-// fechas
-if (savedStartDate && savedEndDate) {
-	$("#startDate").val(savedStartDate);
-	$("#endDate").val(savedEndDate);
-} else {
-	$("#endDate").val(new Date().toISOString().split("T")[0]);
-	$("#startDate").val(
-		new Date(new Date().setDate(new Date().getDate() - new Date().getDay()))
-		.toISOString().split("T")[0]
-	);
-}
+currentGroup = $("#groupSelect").val();
 
-// grupo
-if (savedGroup) {
-	$("#groupSelect").val(savedGroup);
-	currentGroup = savedGroup;
-	$("#attendanceList").removeClass("hidden");
-}
-
-// =====================
-// DATEPICKERS
-// =====================
+// datepickers
 flatpickr("#startDate", {
-	dateFormat: "Y-m-d",
-	onChange: function(selectedDates, dateStr) {
-		localStorage.setItem("startDate", dateStr);
-		updateAttendanceList();
-	}
+	dateFormat:"Y-m-d",
+	onChange:(d,str)=>{ localStorage.setItem("startDate",str); update(); }
 });
-
 flatpickr("#endDate", {
-	dateFormat: "Y-m-d",
-	onChange: function(selectedDates, dateStr) {
-		localStorage.setItem("endDate", dateStr);
-		updateAttendanceList();
-	}
+	dateFormat:"Y-m-d",
+	onChange:(d,str)=>{ localStorage.setItem("endDate",str); update(); }
 });
 
-// =====================
-// CAMBIO DE GRUPO
-// =====================
-$("#groupSelect").change(function () {
+$("#groupSelect").change(function(){
 	currentGroup = $(this).val();
-
-	if (currentGroup) {
-		localStorage.setItem("selectedGroup", currentGroup);
-		$("#attendanceList").removeClass("hidden");
-		updateAttendanceList();
-	} else {
-		$("#attendanceList").addClass("hidden");
-	}
+	localStorage.setItem("group",currentGroup);
+	update();
 });
 
-// =====================
-// FUNCION PRINCIPAL
-// =====================
-function updateAttendanceList() {
+$("#searchInput").on("input", update);
 
-const startDate = $("#startDate").val();
-const endDate = $("#endDate").val();
+// =========================
+// FUNCIÓN PRINCIPAL PRO
+// =========================
+function update(){
 
-if (!startDate || !endDate || !currentGroup) return;
+if(!currentGroup) return;
 
-const attendance = JSON.parse(localStorage.getItem("attendance")) || {};
-const groupAttendance = attendance[currentGroup] || {};
-const group = grupos[currentGroup];
+const start = new Date($("#startDate").val());
+const end = new Date($("#endDate").val());
+if(!start || !end) return;
 
-const dateArray = [];
-const start = new Date(startDate);
-const end = new Date(endDate);
-
-for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-	dateArray.push(d.toISOString().split("T")[0]);
+const dates=[];
+for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
+	dates.push(d.toISOString().split("T")[0]);
 }
 
-let tableContent = "<table><tr><th>Nombre/ID</th>";
+const group = grupos[currentGroup];
+const groupAtt = attendance[currentGroup] || {};
+const search = $("#searchInput").val().toLowerCase();
 
-dateArray.forEach(date => {
-	tableContent += `<th>${date}</th>`;
-});
+const isMobile = window.innerWidth <= 768;
 
-tableContent += "</tr>";
+// ================= MOBILE (TARJETAS)
+// =================
+if(isMobile){
 
-group.personas.forEach(student => {
-	tableContent += `<tr><td>${student.nombre} (${student.id})</td>`;
+let html="";
 
-	dateArray.forEach(date => {
-		const isPresent = groupAttendance[date] && groupAttendance[date].includes(student.id);
-		tableContent += `<td>${isPresent ? "✅" : "❌"}</td>`;
+group.personas
+.filter(p=>p.nombre.toLowerCase().includes(search))
+.forEach(p=>{
+
+	let asistencias = 0;
+
+	html += `<div class="card-student">
+	<h3>${p.nombre} (${p.id})</h3>`;
+
+	dates.forEach(date=>{
+		const ok = groupAtt[date]?.includes(p.id);
+		if(ok) asistencias++;
+
+		html += `<div class="flex justify-between">
+		<span>${date}</span>
+		<span>${ok?"✅":"❌"}</span>
+		</div>`;
 	});
 
-	tableContent += "</tr>";
+	const porcentaje = Math.round((asistencias/dates.length)*100);
+
+	html += `<div class="${porcentaje>=70?"good":"bad"}">
+	Asistencia: ${porcentaje}%
+	</div></div>`;
 });
 
-tableContent += "</table>";
-
-$("#attendanceTable").html(tableContent);
+$("#attendanceList").html(html);
+return;
 }
 
-// =====================
-// EXPORTAR CSV
-// =====================
-$("#exportCsv").click(function () {
+// ================= PC (TABLA)
+// =================
+let html="<table class='table'><tr><th>Alumno</th>";
 
-const startDate = $("#startDate").val();
-const endDate = $("#endDate").val();
+dates.forEach(d=> html+=`<th>${d}</th>`);
 
-if (!startDate || !endDate || !currentGroup) {
-	alert("Selecciona grupo y fechas");
-	return;
-}
+html+="<th>%</th></tr>";
 
-const attendance = JSON.parse(localStorage.getItem("attendance")) || {};
-const groupAttendance = attendance[currentGroup] || {};
-const group = grupos[currentGroup];
+group.personas
+.filter(p=>p.nombre.toLowerCase().includes(search))
+.forEach(p=>{
 
-const dateArray = [];
-const start = new Date(startDate);
-const end = new Date(endDate);
+	let asistencias=0;
 
-for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-	dateArray.push(d.toISOString().split("T")[0]);
-}
+	html+=`<tr><td>${p.nombre}</td>`;
 
-let csvContent = "data:text/csv;charset=utf-8,Nombre/ID," + dateArray.join(",") + "\n";
+	dates.forEach(date=>{
+		const ok = groupAtt[date]?.includes(p.id);
+		if(ok) asistencias++;
+		html+=`<td>${ok?"✅":"❌"}</td>`;
+	});
 
-group.personas.forEach(student => {
-	csvContent += `${student.nombre} (${student.id}),`;
+	const porcentaje = Math.round((asistencias/dates.length)*100);
 
-	csvContent += dateArray.map(date => {
-		return groupAttendance[date] && groupAttendance[date].includes(student.id) ? "1" : "0";
-	}).join(",") + "\n";
+	html+=`<td class="${porcentaje>=70?"good":"bad"}">${porcentaje}%</td></tr>`;
 });
 
-const link = document.createElement("a");
-link.setAttribute("href", encodeURI(csvContent));
-link.setAttribute("download", `asistencia_${currentGroup}_${startDate}_${endDate}.csv`);
-document.body.appendChild(link);
-link.click();
+html+="</table>";
+
+$("#attendanceList").html(html);
+}
+
+// ================= CSV
+// =================
+$("#exportCsv").click(function(){
+
+if(!currentGroup) return;
+
+const start=$("#startDate").val();
+const end=$("#endDate").val();
+
+const dates=[];
+for(let d=new Date(start); d<=new Date(end); d.setDate(d.getDate()+1)){
+	dates.push(d.toISOString().split("T")[0]);
+}
+
+let csv="Nombre,"+dates.join(",")+"\n";
+
+grupos[currentGroup].personas.forEach(p=>{
+	csv+=p.nombre+",";
+	csv+=dates.map(d=> attendance[currentGroup]?.[d]?.includes(p.id)?1:0).join(",");
+	csv+="\n";
+});
+
+const a=document.createElement("a");
+a.href="data:text/csv;charset=utf-8,"+encodeURI(csv);
+a.download="reporte.csv";
+a.click();
 
 });
 
-// =====================
-updateAttendanceList();
+update();
 
 });
 </script>
