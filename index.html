@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+
+		<title>Sistema de Registro de Asistencia</title>
+
+		<!-- Open Graph metadata -->
+		<meta property="og:title" content="Registro de asistencia por QR" />
+		<meta
+			property="og:description"
+			content="Herramienta para el registro de asistencia mediante códigos QR."
+		/>
+		<meta
+			property="og:image"
+			content="https://asistencia.laexperienciadeaprender.com/img/registro.jpeg"
+		/>
+		<meta
+			property="og:url"
+			content="https://asistencia.laexperienciadeaprender.com/tupagina.html"
+		/>
+		<meta property="og:type" content="website" />
+
+		<!-- Twitter Card metadata (opcional para mejor integración en Twitter) -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Registro de asistencia por QR" />
+		<meta
+			name="twitter:description"
+			content="Herramienta para el registro de asistencia mediante códigos QR."
+		/>
+		<meta
+			name="twitter:image"
+			content="https://asistencia.laexperienciadeaprender.com/img/registro.jpeg"
+		/>
+
+		<link
+			rel="apple-touch-icon"
+			sizes="57x57"
+			href="icons/apple-icon-57x57.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="60x60"
+			href="icons/apple-icon-60x60.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="72x72"
+			href="icons/apple-icon-72x72.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="76x76"
+			href="icons/apple-icon-76x76.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="114x114"
+			href="icons/apple-icon-114x114.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="120x120"
+			href="icons/apple-icon-120x120.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="144x144"
+			href="icons/apple-icon-144x144.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="152x152"
+			href="icons/apple-icon-152x152.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="icons/apple-icon-180x180.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="192x192"
+			href="icons/android-icon-192x192.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="96x96"
+			href="icons/favicon-96x96.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="icons/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="icons/favicon-16x16.png"
+		/>
+
+		<meta name="msapplication-TileColor" content="#4b0082" />
+		<meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
+		<meta name="theme-color" content="#4b0082" />
+
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+			rel="stylesheet"
+		/>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+		<link rel="manifest" href="manifest.json" />
+		<style>
+			body {
+				overflow: hidden;
+				touch-action: none;
+			}
+			.card {
+				transition: all 0.3s ease;
+			}
+			.card:hover {
+				transform: scale(1.05);
+				box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+			}
+
+			.btnImg {
+				width: 100px;
+				height: 100px;
+				border-radius: 20px;
+			}
+		</style>
+	</head>
+	<body class="bg-gray-100 h-screen flex items-center justify-center">
+		<div class="grid grid-cols-2 gap-8 p-8">
+			<a
+				href="administrar.html"
+				class="card bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center"
+			>
+				<img
+					<img src="https://asistencia.laexperienciadeaprender.com/img/administrar.jpeg" class="rounded-xl shadow-sm" style="width: 150px; height: auto;" alt="Logo Administrar">
+			
+				<h2 class="text-xl font-bold text-center">Administrar Grupos</h2>
+			</a>
+			<a
+				href="registro.html"
+				class="card bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center"
+			>
+				<img
+					src="https://asistencia.laexperienciadeaprender.com/img/registro.jpeg"
+					alt="Registrar asistencia"
+					class="mb-4 btnImg"
+				/>
+				<h2 class="text-xl font-bold text-center">Registrar asistencia</h2>
+			</a>
+			<a
+				href="imprimir.html"
+				class="card bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center"
+			>
+				<img
+					src="https://asistencia.laexperienciadeaprender.com/img/imprimir.jpeg"
+					alt="Imprimir tarjetas"
+					class="mb-4 btnImg"
+				/>
+				<h2 class="text-xl font-bold text-center">Imprimir tarjetas</h2>
+			</a>
+			<a
+				href="reportes.html"
+				class="card bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center"
+			>
+				<img src="https://asistencia.laexperienciadeaprender.com/img/reportes.jpeg" alt="Ver Reportes" class="mb-4 btnImg" />
+				<h2 class="text-xl font-bold text-center">Ver Reportes</h2>
+			</a>
+		</div>
+
+		<script>
+			$(document).ready(function () {
+				// $(".card").on("click", function (e) {
+				// 	e.preventDefault();
+				// 	var href = $(this).attr("href");
+				// 	$(this).addClass("animate-pulse");
+				// 	setTimeout(function () {
+				// 		window.location.href = href;
+				// 	}, 300);
+				// });
+			});
+		</script>
+	</body>
+</html>
