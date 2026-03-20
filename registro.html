@@ -5,24 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Asistencia - Registro</title>
 
-<link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png"/>
-<link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png"/>
-<link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png"/>
-<link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png"/>
-<link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png"/>
-<link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png"/>
-<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png"/>
-<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png"/>
-<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png"/>
-<link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png"/>
-<link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png"/>
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png"/>
-
-<meta name="msapplication-TileColor" content="#4b0082" />
-<meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
-<meta name="theme-color" content="#4b0082" />
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" rel="stylesheet"/>
@@ -35,70 +17,14 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-.bg-indigo {
-	background-color: #4b0082;
-}
+.bg-indigo { background-color: #4b0082; }
 
-/* ===================== */
-/* RESPONSIVE MOVIL */
-/* ===================== */
+/* RESPONSIVE */
 @media (max-width: 768px) {
-
-	.container {
-		padding-left: 10px !important;
-		padding-right: 10px !important;
-	}
-
-	h1 {
-		font-size: 1.5rem;
-		text-align: center;
-	}
-
-	h2 {
-		font-size: 1.2rem;
-	}
-
-	/* Select e inputs */
-	select, input {
-		width: 100% !important;
-		font-size: 16px;
-		padding: 10px;
-	}
-
-	/* Botón QR */
-	#start-button {
-		width: 100%;
-		font-size: 16px;
-		padding: 12px;
-	}
-
-	/* Contenedor QR */
-	#qr-reader {
-		width: 100% !important;
-	}
-
-	/* Tabla responsive */
-	table {
-		font-size: 12px;
-		min-width: 600px;
-	}
-
-	/* Scroll horizontal tabla */
-	#attendanceList {
-		overflow-x: auto;
-	}
-
-	th, td {
-		padding: 6px !important;
-	}
-
-	/* Botones dentro tabla */
-	td button {
-		width: 100%;
-		margin-top: 5px;
-		font-size: 12px;
-	}
-
+.container { padding-left: 10px !important; padding-right: 10px !important; }
+h1 { font-size: 1.5rem; }
+table { font-size: 12px; min-width: 600px; }
+#attendanceList { overflow-x: auto; }
 }
 </style>
 </head>
@@ -118,10 +44,7 @@ Sistema de Registro de Asistencia
 </h1>
 
 <div id="groupSelection" class="mb-8">
-<label for="groupSelect" class="block mb-2 font-semibold">
-Selecciona un grupo:
-</label>
-
+<label class="block mb-2 font-semibold">Selecciona un grupo:</label>
 <select id="groupSelect" class="w-full p-2 border rounded">
 <option value="">Selecciona un grupo...</option>
 </select>
@@ -131,36 +54,26 @@ Selecciona un grupo:
 
 <h2 class="text-2xl font-semibold mb-4">Registro de Asistencia</h2>
 
-<div class="mb-4">
-<label for="datePicker" class="block mb-2 font-semibold">Fecha:</label>
-<input type="text" id="datePicker" class="w-full p-2 border rounded"/>
-</div>
+<input type="text" id="datePicker" class="w-full p-2 border rounded mb-4"/>
 
-<div id="qr-reader-container" class="container mx-auto p-4">
-<h1 class="text-3xl font-bold mb-4 text-center text-blue-600">
-Utilizar Escáner de Código QR
-</h1>
+<div id="qr-reader"></div>
 
-<div id="qr-reader" class="w-full max-w-md mx-auto"></div>
-
-<button id="start-button" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full max-w-md mx-auto block">
+<button id="start-button" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded w-full">
 Iniciar Cámara
 </button>
-</div>
 
 </div>
 
 <div id="attendanceList" class="mt-8 hidden">
-<h2 class="text-2xl font-semibold mb-4">Lista de Asistencia</h2>
+<h2 class="text-2xl font-semibold mb-4">Lista</h2>
 
-<table class="min-w-full bg-white border border-gray-300">
+<table class="min-w-full bg-white border">
 <thead>
 <tr>
-<th class="py-2 px-4 border-b">ID</th>
-<th class="py-2 px-4 border-b">Nombre</th>
-<th class="py-2 px-4 border-b">Asistencia</th>
-<th class="py-2 px-4 border-b">Contactar</th>
-<th class="py-2 px-4 border-b">Acción</th>
+<th>ID</th>
+<th>Nombre</th>
+<th>Asistencia</th>
+<th>Acción</th>
 </tr>
 </thead>
 
@@ -170,9 +83,120 @@ Iniciar Cámara
 </div>
 </div>
 
-<!-- JS original intacto -->
 <script>
-/* TODO tu JS queda exactamente igual (no se modificó nada) */
+$(document).ready(function () {
+
+let currentGroup = null;
+const grupos = JSON.parse(localStorage.getItem("grupos")) || {};
+
+// cargar grupos
+for (const [id, group] of Object.entries(grupos)) {
+$("#groupSelect").append(`<option value="${id}">${group.nombre}</option>`);
+}
+
+// fecha
+flatpickr("#datePicker", {
+dateFormat: "Y-m-d",
+defaultDate: "today"
+});
+
+// seleccionar grupo
+$("#groupSelect").change(function () {
+currentGroup = $(this).val();
+
+if (currentGroup) {
+$("#attendanceForm").removeClass("hidden");
+$("#attendanceList").removeClass("hidden");
+updateAttendanceList();
+}
+});
+
+// registrar asistencia
+function registerAttendance(date, studentId) {
+
+const group = grupos[currentGroup];
+const student = group.personas.find(p => p.id === studentId);
+
+if (!student) return;
+
+const attendance = JSON.parse(localStorage.getItem("attendance")) || {};
+
+if (!attendance[currentGroup]) attendance[currentGroup] = {};
+if (!attendance[currentGroup][date]) attendance[currentGroup][date] = [];
+
+if (!attendance[currentGroup][date].includes(studentId)) {
+attendance[currentGroup][date].push(studentId);
+localStorage.setItem("attendance", JSON.stringify(attendance));
+
+swal(student.nombre, "Asistencia registrada", "success");
+updateAttendanceList();
+}
+}
+
+// tabla
+function updateAttendanceList() {
+
+const date = $("#datePicker").val();
+const attendance = JSON.parse(localStorage.getItem("attendance")) || {};
+
+const groupAttendance =
+attendance[currentGroup] && attendance[currentGroup][date]
+? attendance[currentGroup][date]
+: [];
+
+$("#attendanceItems").empty();
+
+grupos[currentGroup].personas.forEach(student => {
+
+const present = groupAttendance.includes(student.id);
+
+$("#attendanceItems").append(`
+<tr>
+<td>${student.id}</td>
+<td>${student.nombre}</td>
+<td>${present ? "✅" : "❌"}</td>
+<td>
+<button onclick="registerAttendance('${date}','${student.id}')" class="bg-green-500 text-white px-2 py-1 rounded">
+Registrar
+</button>
+</td>
+</tr>
+`);
+
+});
+}
+
+// QR
+let scanner = null;
+
+$("#start-button").click(function () {
+
+if (!scanner) {
+
+scanner = new Html5Qrcode("qr-reader");
+
+scanner.start(
+{ facingMode: "environment" },
+{ fps: 10, qrbox: 250 },
+(decodedText) => {
+const date = $("#datePicker").val();
+registerAttendance(date, decodedText);
+}
+);
+
+$(this).text("Detener Cámara");
+
+} else {
+
+scanner.stop();
+scanner = null;
+$(this).text("Iniciar Cámara");
+
+}
+
+});
+
+});
 </script>
 
 </body>
