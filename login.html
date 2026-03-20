@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Directo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-96">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Acceso Docente</h2>
+        
+        <input type="email" id="user" placeholder="Tu correo" class="w-full p-3 mb-4 border rounded-lg">
+        <input type="password" id="pass" placeholder="Tu contraseña" class="w-full p-3 mb-6 border rounded-lg">
+        
+        <button id="btnEntrar" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700">Entrar</button>
+        <p id="error" class="text-red-500 mt-4 text-center hidden font-bold">Datos incorrectos</p>
+    </div>
+
+    <script>
+        // AQUÍ TÚ PONES LOS CORREOS QUE QUIERAS
+        const usuariosAutorizados = [
+            { email: "telesecundariaM126@gmail.com", pass: "telesecundariaM126" },
+            { email: "telesecundariaV126@gmail.com", pass: "telesecundariaV126" }
+        ];
+
+        document.getElementById('btnEntrar').onclick = () => {
+            const correoIngresado = document.getElementById('user').value.trim();
+            const passIngresada = document.getElementById('pass').value;
+
+            // Buscamos si el usuario existe en nuestra lista
+            const usuarioValido = usuariosAutorizados.find(u => u.email === correoIngresado && u.pass === passIngresada);
+
+            if (usuarioValido) {
+                // GUARDAMOS EL CORREO EN LA MEMORIA DEL NAVEGADOR
+                localStorage.setItem('usuarioLogueado', correoIngresado);
+                window.location.href = "index.html";
+            } else {
+                document.getElementById('error').classList.remove('hidden');
+            }
+        };
+    </script>
+</body>
+</html>
