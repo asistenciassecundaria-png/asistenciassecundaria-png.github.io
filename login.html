@@ -3,47 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Directo</title>
+    <title>Acceso Docente - Asistencia</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        /* ===================== */
-        /* RESPONSIVE MOVIL */
-        /* ===================== */
+        /* Mantengo tus estilos responsive que ya tenías */
         @media (max-width: 768px) {
-
-            body {
-                padding: 15px;
-            }
-
-            /* Contenedor principal */
-            .bg-white {
-                width: 100% !important;
-                max-width: 100%;
-                padding: 20px !important;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            /* Inputs */
-            input {
-                font-size: 16px;
-                padding: 12px;
-            }
-
-            /* Botón */
-            button {
-                font-size: 16px;
-                padding: 12px;
-            }
-
-            /* Error */
-            #error {
-                font-size: 14px;
-            }
+            body { padding: 15px; }
+            .bg-white { width: 100% !important; max-width: 100%; padding: 20px !important; }
+            h2 { font-size: 1.5rem; }
+            input, button { font-size: 16px; padding: 12px; }
+            #error { font-size: 14px; }
         }
     </style>
 </head>
@@ -55,38 +26,49 @@
             Acceso Docente
         </h2>
         
-        <input type="email" id="user" placeholder="Tu correo" class="w-full p-3 mb-4 border rounded-lg">
-        <input type="password" id="pass" placeholder="Tu contraseña" class="w-full p-3 mb-6 border rounded-lg">
+        <input type="email" id="user" placeholder="Tu correo" class="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <input type="password" id="pass" placeholder="Tu contraseña" class="w-full p-3 mb-6 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
         
-        <button id="btnEntrar" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700">
+        <button id="btnEntrar" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition duration-300">
             Entrar
         </button>
 
         <p id="error" class="text-red-500 mt-4 text-center hidden font-bold">
-            Datos incorrectos
+            Correo o contraseña incorrectos
         </p>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <script src="fire.js"></script>
+
     <script>
-        const usuariosAutorizados = [
-            { email: "telesecundariaM126@gmail.com", pass: "telesecundariaM126" },
-            { email: "telesecundariaV126@gmail.com", pass: "telesecundariaV126" }
-        ];
-
         document.getElementById('btnEntrar').onclick = () => {
-            const correoIngresado = document.getElementById('user').value.trim();
-            const passIngresada = document.getElementById('pass').value;
+            const correo = document.getElementById('user').value.trim();
+            const pass = document.getElementById('pass').value;
+            const mensajeError = document.getElementById('error');
 
-            const usuarioValido = usuariosAutorizados.find(
-                u => u.email === correoIngresado && u.pass === passIngresada
-            );
-
-            if (usuarioValido) {
-                localStorage.setItem('usuarioLogueado', correoIngresado);
-                window.location.href = "index.html";
-            } else {
-                document.getElementById('error').classList.remove('hidden');
+            if (!correo || !pass) {
+                mensajeError.innerText = "Por favor, llena todos los campos";
+                mensajeError.classList.remove('hidden');
+                return;
             }
+
+            // Usamos la función de Firebase que está en fire.js
+            auth.signInWithEmailAndPassword(correo, pass)
+                .then((userCredential) => {
+                    // Login exitoso
+                    console.log("Sesión iniciada con:", userCredential.user.email);
+                    window.location.href = "index.html"; 
+                })
+                .catch((error) => {
+                    // Si falla (usuario no existe o pass mal)
+                    console.error("Error de login:", error.code);
+                    mensajeError.innerText = "Datos incorrectos o usuario no registrado";
+                    mensajeError.classList.remove('hidden');
+                });
         };
     </script>
 
