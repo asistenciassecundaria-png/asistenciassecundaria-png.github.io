@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Principal - Asistencia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg text-center">
+        <h1 class="text-2xl font-bold text-blue-600 mb-2">Bienvenido al Sistema</h1>
+        <p id="userDisplay" class="text-gray-500 mb-8 font-bold"></p>
+
+        <div class="grid grid-cols-1 gap-4 text-center">
+            <a href="administrar.html" class="p-4 bg-blue-50 border-2 border-blue-200 rounded-lg font-bold hover:bg-blue-100 text-blue-700">1. Administrar Grupos/Alumnos</a>
+            <a href="registro.html" class="p-4 bg-green-50 border-2 border-green-200 rounded-lg font-bold hover:bg-green-100 text-green-700">2. Pasar Asistencia (Escáner)</a>
+            <a href="imprimir.html" class="p-4 bg-purple-50 border-2 border-purple-200 rounded-lg font-bold hover:bg-purple-100 text-purple-700">3. Imprimir Tarjetas QR</a>
+            <a href="reportes.html" class="p-4 bg-orange-50 border-2 border-orange-200 rounded-lg font-bold hover:bg-orange-100 text-orange-700">4. Ver Reportes</a>
+            
+            <button id="btnSalir" class="mt-6 text-red-500 underline font-bold">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <script>
+        const usuario = localStorage.getItem('usuarioLogueado');
+        if (!usuario) {
+            window.location.href = "login.html";
+        } else {
+            document.getElementById('userDisplay').innerText = "Sesión: " + usuario;
+        }
+
+        document.getElementById('btnSalir').onclick = () => {
+            localStorage.removeItem('usuarioLogueado');
+            window.location.href = "login.html";
+        };
+    </script>
+</body>
+</html>

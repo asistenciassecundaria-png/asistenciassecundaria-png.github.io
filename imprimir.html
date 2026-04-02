@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Asistencia - Imprimir Tarjetas</title>
+
+<link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png"/>
+<link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png"/>
+<link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png"/>
+<link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png"/>
+<link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png"/>
+<link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png"/>
+<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png"/>
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png"/>
+<link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png"/>
+
+<meta name="msapplication-TileColor" content="#4b0082" />
+<meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
+<meta name="theme-color" content="#4b0082" />
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+<style>
+.bg-indigo {
+	background-color: #4b0082;
+}
+
+@media print {
+	.no-print { display: none; }
+	.card { page-break-inside: avoid; }
+	body { width: 210mm; height: 297mm; }
+	#tarjetas-container {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10mm;
+	}
+	.tarjeta {
+		width: 95mm;
+		height: 50mm;
+	}
+}
+
+/* ===================== */
+/* RESPONSIVE MOVIL */
+/* ===================== */
+@media (max-width: 768px) {
+
+	.container {
+		padding-left: 10px !important;
+		padding-right: 10px !important;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+		text-align: center;
+	}
+
+	/* Select */
+	select {
+		width: 100% !important;
+		font-size: 16px;
+		padding: 10px;
+	}
+
+	/* Lista de personas */
+	#personas-container div {
+		flex-direction: row;
+		align-items: center;
+		font-size: 16px;
+	}
+
+	/* Botones */
+	button {
+		width: 100%;
+		margin-bottom: 10px;
+		font-size: 16px;
+		padding: 12px;
+	}
+
+	/* Tarjetas */
+	#tarjetas-container {
+		grid-template-columns: 1fr !important;
+		gap: 15px;
+	}
+
+	.tarjeta {
+		flex-direction: column !important;
+		align-items: center !important;
+		text-align: center;
+		padding: 15px !important;
+	}
+
+	.tarjeta h3 {
+		font-size: 1.2rem;
+	}
+
+	.tarjeta p {
+		font-size: 0.9rem;
+	}
+
+	.qr-code {
+		margin-top: 10px !important;
+	}
+
+}
+</style>
+</head>
+
+<body class="bg-gray-100">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-indigo">
+<div class="container-fluid">
+<a class="navbar-brand" href="index.html">&#8592; Regresar</a>
+</div>
+</nav>
+
+<div class="container mx-auto px-4 py-8">
+
+<h1 class="text-3xl font-bold mb-6 no-print">Generador de Tarjetas</h1>
+
+<div class="mb-4 no-print">
+<select id="grupo-select" class="w-full p-2 border border-gray-300 rounded-md">
+<option value="">Selecciona un grupo</option>
+</select>
+</div>
+
+<div id="personas-container" class="mb-4 no-print"></div>
+
+<div class="mb-4 no-print">
+<button id="generar-btn" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 hidden">
+Generar Tarjetas
+</button>
+
+<button id="imprimir-btn" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 ml-2 hidden">
+Imprimir Tarjetas
+</button>
+</div>
+
+<div id="tarjetas-container" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+$(document).ready(function () {
+
+const gruposData = JSON.parse(localStorage.getItem("grupos"));
+
+// Poblar select
+for (const key in gruposData) {
+	$("#grupo-select").append(
+		`<option value="${key}">${gruposData[key].nombre}</option>`
+	);
+}
+
+// Cambio de grupo
+$("#grupo-select").change(function () {
+	const grupoId = $(this).val();
+
+	if (grupoId) {
+		const personas = gruposData[grupoId].personas;
+		const container = $("#personas-container");
+		container.empty();
+
+		personas.forEach((persona) => {
+			container.append(`
+				<div class="flex items-center mb-2">
+					<input type="checkbox" id="${persona.id}" value="${persona.id}" class="persona-checkbox mr-2">
+					<label for="${persona.id}">${persona.nombre}</label>
+				</div>
+			`);
+		});
+
+		$("#generar-btn").removeClass("hidden");
+	} else {
+		$("#personas-container").empty();
+		$("#generar-btn").addClass("hidden");
+	}
+
+	$("#imprimir-btn").addClass("hidden");
+	$("#tarjetas-container").empty();
+
+	$(".persona-checkbox").prop("checked", true);
+});
+
+// Auto seleccionar primer grupo
+if (Object.keys(gruposData).length > 0) {
+	$("#grupo-select").val(Object.keys(gruposData)[0]);
+	$("#grupo-select").change();
+}
+
+// Generar tarjetas
+$("#generar-btn").click(function () {
+
+	const grupoId = $("#grupo-select").val();
+	const grupoNombre = gruposData[grupoId].nombre;
+
+	const personasSeleccionadas = $(".persona-checkbox:checked")
+	.map(function () { return $(this).val(); })
+	.get();
+
+	const container = $("#tarjetas-container");
+	container.empty();
+
+	personasSeleccionadas.forEach((personaId) => {
+
+		const persona = gruposData[grupoId].personas.find(
+			(p) => p.id === personaId
+		);
+
+		const tarjeta = $(`
+			<div class="tarjeta bg-white rounded-lg shadow-md p-6 flex items-center">
+				<div class="flex-grow">
+					<h3 class="text-2xl font-semibold mb-2">${persona.nombre}</h3>
+					<p class="text-lg text-gray-600 mb-2">${grupoNombre}</p>
+					<p class="text-sm text-gray-500">ID: ${persona.id}</p>
+				</div>
+				<div id="qr-code-${persona.id}" class="qr-code ml-4"></div>
+			</div>
+		`);
+
+		container.append(tarjeta);
+
+		new QRCode(tarjeta.find("#qr-code-" + persona.id)[0], {
+			text: persona.id,
+			width: 100,
+			height: 100
+		});
+	});
+
+	if (personasSeleccionadas.length > 0) {
+		$("#imprimir-btn").removeClass("hidden");
+	} else {
+		$("#imprimir-btn").addClass("hidden");
+	}
+});
+
+// Imprimir
+$("#imprimir-btn").click(function () {
+	window.print();
+});
+
+});
+</script>
+
+</body>
+</html>

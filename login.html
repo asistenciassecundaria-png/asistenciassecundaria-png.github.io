@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Directo</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* ===================== */
+        /* RESPONSIVE MOVIL */
+        /* ===================== */
+        @media (max-width: 768px) {
+
+            body {
+                padding: 15px;
+            }
+
+            /* Contenedor principal */
+            .bg-white {
+                width: 100% !important;
+                max-width: 100%;
+                padding: 20px !important;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            /* Inputs */
+            input {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            /* Botón */
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            /* Error */
+            #error {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-900 h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-96">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">
+            Acceso Docente
+        </h2>
+        
+        <input type="email" id="user" placeholder="Tu correo" class="w-full p-3 mb-4 border rounded-lg">
+        <input type="password" id="pass" placeholder="Tu contraseña" class="w-full p-3 mb-6 border rounded-lg">
+        
+        <button id="btnEntrar" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700">
+            Entrar
+        </button>
+
+        <p id="error" class="text-red-500 mt-4 text-center hidden font-bold">
+            Datos incorrectos
+        </p>
+    </div>
+
+    <script>
+        const usuariosAutorizados = [
+            { email: "telesecundariaM126@gmail.com", pass: "telesecundariaM126" },
+            { email: "telesecundariaV126@gmail.com", pass: "telesecundariaV126" }
+        ];
+
+        document.getElementById('btnEntrar').onclick = () => {
+            const correoIngresado = document.getElementById('user').value.trim();
+            const passIngresada = document.getElementById('pass').value;
+
+            const usuarioValido = usuariosAutorizados.find(
+                u => u.email === correoIngresado && u.pass === passIngresada
+            );
+
+            if (usuarioValido) {
+                localStorage.setItem('usuarioLogueado', correoIngresado);
+                window.location.href = "index.html";
+            } else {
+                document.getElementById('error').classList.remove('hidden');
+            }
+        };
+    </script>
+
+</body>
+</html>

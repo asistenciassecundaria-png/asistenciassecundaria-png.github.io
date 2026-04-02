@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Asistencia - Ver Reportes</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" rel="stylesheet"/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+.bg-indigo { background-color: #4b0082; }
+
+.attendance-table { overflow-x: auto; }
+
+.card-student {
+	background: white;
+	border-radius: 12px;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	padding: 12px;
+	margin-bottom: 12px;
+}
+
+.good { color: green; font-weight: bold; }
+.bad { color: red; font-weight: bold; }
+
+@media (max-width:768px){
+	table { min-width:600px; font-size:12px; }
+}
+</style>
+</head>
+
+<body class="bg-gray-100">
+
+<nav class="navbar navbar-dark bg-indigo">
+<div class="container-fluid">
+<a class="navbar-brand" href="index.html">← Regresar</a>
+</div>
+</nav>
+
+<div class="container py-4">
+
+<h1 class="text-2xl font-bold text-center mb-4">Reporte de Asistencias</h1>
+
+<!-- BUSCADOR -->
+<input id="searchInput" placeholder="Buscar alumno..." class="w-full p-2 border rounded mb-4"/>
+
+<select id="groupSelect" class="w-full p-2 border rounded mb-4">
+<option value="">Selecciona grupo</option>
+</select>
+
+<div class="flex gap-2 mb-4">
+<input id="startDate" class="w-1/2 p-2 border rounded"/>
+<input id="endDate" class="w-1/2 p-2 border rounded"/>
+</div>
+
+<button id="exportCsv" class="bg-green-500 text-white px-4 py-2 rounded w-full mb-4">
+Exportar CSV
+</button>
+
+<div id="attendanceList" class="attendance-table"></div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+
+let currentGroup = null;
+const grupos = JSON.parse(localStorage.getItem("grupos")) || {};
+const attendance = JSON.parse(localStorage.getItem("attendance")) || {};
+
+// llenar grupos
+for (const [id, g] of Object.entries(grupos)) {
+	$("#groupSelect").append(`<option value="${id}">${g.nombre}</option>`);
+}
+
+// restaurar
+$("#startDate").val(localStorage.getItem("startDate") || "");
+$("#endDate").val(localStorage.getItem("endDate") || "");
+$("#groupSelect").val(localStorage.getItem("group") || "");
+
+currentGroup = $("#groupSelect").val();
+
+// datepickers
+flatpickr("#startDate", {
+	dateFormat:"Y-m-d",
+	onChange:(d,str)=>{ localStorage.setItem("startDate",str); update(); }
+});
+flatpickr("#endDate", {
+	dateFormat:"Y-m-d",
+	onChange:(d,str)=>{ localStorage.setItem("endDate",str); update(); }
+});
+
+$("#groupSelect").change(function(){
+	currentGroup = $(this).val();
+	localStorage.setItem("group",currentGroup);
+	update();
+});
+
+$("#searchInput").on("input", update);
+
+// =========================
+// FUNCIÓN PRINCIPAL PRO
+// =========================
+function update(){
+
+if(!currentGroup) return;
+
+const start = new Date($("#startDate").val());
+const end = new Date($("#endDate").val());
+if(!start || !end) return;
+
+const dates=[];
+for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
+	dates.push(d.toISOString().split("T")[0]);
+}
+
+const group = grupos[currentGroup];
+const groupAtt = attendance[currentGroup] || {};
+const search = $("#searchInput").val().toLowerCase();
+
+const isMobile = window.innerWidth <= 768;
+
+// ================= MOBILE (TARJETAS)
+// =================
+if(isMobile){
+
+let html="";
+
+group.personas
+.filter(p=>p.nombre.toLowerCase().includes(search))
+.forEach(p=>{
+
+	let asistencias = 0;
+
+	html += `<div class="card-student">
+	<h3>${p.nombre} (${p.id})</h3>`;
+
+	dates.forEach(date=>{
+		const ok = groupAtt[date]?.includes(p.id);
+		if(ok) asistencias++;
+
+		html += `<div class="flex justify-between">
+		<span>${date}</span>
+		<span>${ok?"✅":"❌"}</span>
+		</div>`;
+	});
+
+	const porcentaje = Math.round((asistencias/dates.length)*100);
+
+	html += `<div class="${porcentaje>=70?"good":"bad"}">
+	Asistencia: ${porcentaje}%
+	</div></div>`;
+});
+
+$("#attendanceList").html(html);
+return;
+}
+
+// ================= PC (TABLA)
+// =================
+let html="<table class='table'><tr><th>Alumno</th>";
+
+dates.forEach(d=> html+=`<th>${d}</th>`);
+
+html+="<th>%</th></tr>";
+
+group.personas
+.filter(p=>p.nombre.toLowerCase().includes(search))
+.forEach(p=>{
+
+	let asistencias=0;
+
+	html+=`<tr><td>${p.nombre}</td>`;
+
+	dates.forEach(date=>{
+		const ok = groupAtt[date]?.includes(p.id);
+		if(ok) asistencias++;
+		html+=`<td>${ok?"✅":"❌"}</td>`;
+	});
+
+	const porcentaje = Math.round((asistencias/dates.length)*100);
+
+	html+=`<td class="${porcentaje>=70?"good":"bad"}">${porcentaje}%</td></tr>`;
+});
+
+html+="</table>";
+
+$("#attendanceList").html(html);
+}
+
+// ================= CSV
+// =================
+$("#exportCsv").click(function(){
+
+if(!currentGroup) return;
+
+const start=$("#startDate").val();
+const end=$("#endDate").val();
+
+const dates=[];
+for(let d=new Date(start); d<=new Date(end); d.setDate(d.getDate()+1)){
+	dates.push(d.toISOString().split("T")[0]);
+}
+
+let csv="Nombre,"+dates.join(",")+"\n";
+
+grupos[currentGroup].personas.forEach(p=>{
+	csv+=p.nombre+",";
+	csv+=dates.map(d=> attendance[currentGroup]?.[d]?.includes(p.id)?1:0).join(",");
+	csv+="\n";
+});
+
+const a=document.createElement("a");
+a.href="data:text/csv;charset=utf-8,"+encodeURI(csv);
+a.download="reporte.csv";
+a.click();
+
+});
+
+update();
+
+});
+</script>
+
+</body>
+</html>
